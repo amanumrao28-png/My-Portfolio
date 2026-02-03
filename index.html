@@ -148,13 +148,13 @@
             <a href="images/Alok-Resume (1).pdf" download class=" btn btn2">Download Resume</a>
         </div>
         <div class="contact-right">
-          <form name="submit-to-google-sheet">
+          <form   name="submit-to-google-sheet">
             <input type="text" name="Name" placeholder="Your Name" required>
             <input type="email" name="Email" placeholder="Your Email" required>
             <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
             <button type="submit" class="btn btn2">submit</button>
           </form>
-          
+          <span id="form-msg"></span>
         </div>
       </div>
     </div>
@@ -177,30 +177,32 @@
       }
     </script>
     <script>
-	const scriptURL = 'https://script.google.com/macros/s/AKfycby5fXPSCBB-OKVqLOdSBBE6pVjMhhKO6EPhIc-wkLdPoKFlA27zXXECd4AJiVxMC-ov/exec'
-	const form = document.forms['submit-to-google-sheet']
-	const btn = document.querySelector('.btn.btn2')
+const scriptURL = "https://script.google.com/macros/s/AKfycbxk10KA3JuM88Qg0LuEj3PSif5pwmAuo8NfX8Gdy_cRzyGivDcYhzct2-fyTmJFJXST/exec"
+const form = document.forms['submit-to-google-sheet']
+const msg = document.getElementById("form-msg")
 
-	form.addEventListener('submit', e => {
-		e.preventDefault()
-		btn.innerHTML = 'Sending...'
-		fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-			.then(response => response.text())
-			.then(response => {
-				console.log('Success!', response)
-				btn.innerHTML = 'Message Sent Successfully!'
-				setTimeout(() => btn.innerHTML = 'Submit', 3000)
-				form.reset()
-			})
-			.catch(error => {
-				console.error('Error!', error.message)
-				btn.innerHTML = 'Error Sending Message'
-				setTimeout(() => btn.innerHTML = 'Submit', 3000)
-			})
-	})
+form.addEventListener('submit', e => {
+  e.preventDefault()
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: new FormData(form)
+  })
+  .then(res => res.text())
+  .then(() => {
+    msg.innerHTML = "Message sent successfully ✅"
+    form.reset()
+
+    setTimeout(() => {
+      msg.innerHTML = ""
+    }, 4000)
+  })
+  .catch(() => {
+    msg.innerHTML = "Something went wrong ❌"
+  })
+})
 </script>
 
-      
     
 </body>
 
